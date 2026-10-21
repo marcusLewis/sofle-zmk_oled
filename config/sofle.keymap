@@ -19,6 +19,9 @@
         scroll_encoder: scroll_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
+            // Default sensor rotate tap (5ms) is shorter than mouse scroll updates.
+            // Hold the scroll behavior long enough to emit wheel events.
+            tap-ms = <100>;
             bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
         };
     };
