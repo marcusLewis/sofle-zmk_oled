@@ -7,7 +7,6 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/rgb.h>
 
 #define BASE 0
 #define UNUSED 1
@@ -50,7 +49,7 @@
                 &kp ESC    &kp Q     &kp W     &kp E     &kp R    &kp T                        &kp Y     &kp U      &kp I      &kp O     &kp P    &kp BSPC
                 &kp TAB    &kp A     &kp S     &kp D     &kp F    &kp G                        &kp H     &kp J      &kp K      &kp L     &kp SEMI &kp SQT
                 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V    &kp B  &kp C_MUTE  &kp C_PP  &kp N  &kp M &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                           &kp LCTRL &kp LALT &kp LGUI &mo SYMBOLS &kp RET     &kp SPACE &mo NAV_MOUSE &kp RGUI &kp RALT &kp RCTRL
+                           &kp LCTRL &kp LALT &kp LGUI &mo SYMBOLS &kp RET     &kp SPACE &mo NAV_MOUSE &kp LBKT &kp RBKT &kp BSLH
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &desktop_encoder>;
         };
@@ -85,7 +84,7 @@
                 &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
                 &trans &mkp LCLK &mmv MOVE_UP &mkp RCLK &none &none   &kp PG_UP &none &kp UP &none &none &trans
                 &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &none &kp CAPS     &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT &none &trans
-                &trans &kp Z &kp X &kp C &kp V &kp B &trans &trans   &kp DEL &none &none &none &rgb_ug RGB_TOG &trans
+                &trans &kp Z &kp X &kp C &kp V &kp B &trans &trans   &kp DEL &none &none &none &trans &trans
                        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&horizontal_scroll_encoder &desktop_encoder>;
