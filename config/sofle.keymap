@@ -1,19 +1,24 @@
-/*
- * Sofle ZMK - migrated from sofle-layout.vil (Vial/QMK)
- * Source layers: 0 (base), 2 (symbols/F-keys), 3 (mouse/navigation).
- * Layer 1 deliberately kept as a transparent placeholder to preserve
- * the original Vial layer numbers and MO(2)/MO(3) semantics.
- */
+/* Sofle ZMK: 0 base, 1 symbols, 2 navigation, 3 mouse (both thumbs). */
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 900
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
 #include <dt-bindings/zmk/pointing.h>
 
 #define BASE 0
-#define UNUSED 1
-#define SYMBOLS 2
-#define NAV_MOUSE 3
+#define SYMBOLS 1
+#define NAVIGATION 2
+#define MOUSE 3
 
 / {
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        mouse_on_both_thumbs {
+            if-layers = <SYMBOLS NAVIGATION>;
+            then-layer = <MOUSE>;
+        };
+    };
+
     behaviors {
         // macOS Mission Control: switch Spaces.
         desktop_encoder: desktop_encoder {
@@ -49,25 +54,13 @@
                 &kp ESC    &kp Q     &kp W     &kp E     &kp R    &kp T                        &kp Y     &kp U      &kp I      &kp O     &kp P    &kp BSPC
                 &kp TAB    &kp A     &kp S     &kp D     &kp F    &kp G                        &kp H     &kp J      &kp K      &kp L     &kp SEMI &kp SQT
                 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V    &kp B  &kp C_MUTE  &kp C_PP  &kp N  &kp M &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                           &kp LCTRL &kp LALT &kp LGUI &mo SYMBOLS &kp RET     &kp SPACE &mo NAV_MOUSE &kp LBKT &kp RBKT &kp BSLH
-            >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &desktop_encoder>;
-        };
-
-        unused_layer {
-            display-name = "Unused";
-            bindings = <
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                       &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                           &kp LCTRL &kp LALT &kp LGUI &mo SYMBOLS &kp RET     &kp SPACE &mo NAVIGATION &kp LBKT &kp RBKT &kp BSLH
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &desktop_encoder>;
         };
 
         symbols_layer {
-            display-name = "Symbols (Vial 2)";
+            display-name = "Symbols";
             bindings = <
                 &trans &kp F1    &kp F2    &kp F3    &kp F4    &kp F5                    &kp F6    &kp F7     &kp F8      &kp F9      &kp F10   &kp F11
                 &trans &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                    &kp N6    &kp N7     &kp N8      &kp N9      &kp N0    &kp F12
@@ -78,16 +71,35 @@
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &vertical_scroll_encoder>;
         };
 
-        nav_mouse_layer {
-            display-name = "Mouse/Nav (Vial 3)";
+        navigation_layer {
+            display-name = "Navigation";
             bindings = <
                 &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
-                &trans &mkp LCLK &mmv MOVE_UP &mkp RCLK &none &none   &kp PG_UP &none &kp UP &none &none &trans
-                &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &none &kp CAPS     &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT &none &trans
+                &trans &trans &trans &trans &none &none         &kp PG_UP &none &kp UP &none &none &trans
+                &trans &trans &trans &trans &none &kp CAPS      &kp PG_DN &kp LEFT &kp DOWN &kp RIGHT &none &trans
                 &trans &kp Z &kp X &kp C &kp V &kp B &trans &trans   &kp DEL &none &none &none &trans &trans
                        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&horizontal_scroll_encoder &desktop_encoder>;
         };
+
+        mouse_layer {
+            display-name = "Mouse";
+            bindings = <
+                &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
+                &trans &trans &mkp LCLK &mkp RCLK &trans &trans  &trans &trans &mmv MOVE_UP &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans        &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans
+                &trans &trans &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                       &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&horizontal_scroll_encoder &vertical_scroll_encoder>;
+        };
+
     };
+};
+
+// Gradual mouse acceleration while a direction is held.
+&mmv {
+    time-to-max-speed-ms = <400>;
+    acceleration-exponent = <1>;
 };
