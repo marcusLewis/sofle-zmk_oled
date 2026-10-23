@@ -2,7 +2,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 900
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 30
 #include <dt-bindings/zmk/pointing.h>
 
 #define BASE 0
@@ -87,7 +87,7 @@
             display-name = "Mouse";
             bindings = <
                 &trans &trans &trans &trans &trans &trans      &trans &trans &trans &trans &trans &trans
-                &trans &trans &mkp LCLK &mkp RCLK &trans &trans  &trans &trans &mmv MOVE_UP &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans  &trans &mkp LCLK &mmv MOVE_UP &mkp RCLK &trans &trans
                 &trans &trans &trans &trans &trans &trans        &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans
                 &trans &trans &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
                        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
